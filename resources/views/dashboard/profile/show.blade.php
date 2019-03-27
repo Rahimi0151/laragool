@@ -50,13 +50,25 @@
                 <b><h1> Recent Posts: </h1></b>
             @endslot
             {{-- list of all posts --}}
-            @foreach ($user->post as $post)
+            @foreach ($user->post->reverse(0) as $post)
                 @component('components.card')
                     @slot('title')
-                        <b> {{ $post->title }} </b>
+                        <b><h2>
+                            <a href="{{ route('posts.show', ['post' => $post]) }}"> {{ $post->title }}
+                        </a></h2></b>
+
+                        {{-- user can delete his/her posts --}}
+                        @if ($user->id == Auth::id())
+                            <a href="{{ route('posts.edit', ['post' => $post]) }}">
+                                <button class="btn btn-primary">Edit</button>
+                            </a>
+                        @endif
+
+                        <hr>
+                        <p>Posted: {{ $post->created_at }}</p>
                     @endslot
                     <p>{{ $post->body }}</p>
-                    <br><br>
+                    <hr>
                     <p>{{ $post->claps }} claps!</p>
                 @endcomponent
                 <br>

@@ -18,6 +18,12 @@ class ProfileController extends Controller
         $this->middleware('auth', ['only' => ['edit', 'update']]);
     }
 
+    public function index()
+    {
+        $users = User::all();
+        return view('users.index')->withUsers($users);
+    }
+
     public function show($username)
     {
         $user = User::where('username','=', $username)->first();

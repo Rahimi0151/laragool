@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Post;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return('index');
+        $posts = Post::all();
+        return view('posts.index')->withPosts($posts);
     }
 
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return('create');
+        return view('posts.create');
     }
 
     /**
@@ -35,7 +37,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        return('store');
+        $post = new Post();
+
+        $post->title = $request->get('title');
+        $post->body = $request->get('body');
+        $post->user_id = Auth::id();
+        $post->claps = 0;
+        $post->save();
+
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
@@ -46,7 +56,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return('show');
+        return view('posts.show')->withPost($post);
     }
 
     /**
@@ -57,7 +67,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return('edit');
+        return view('posts.edit')->withPost($post);
     }
 
     /**
@@ -69,7 +79,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        return('update');
+        $post->title = $request->get('title');
+        $post->body = $request->get('body');
+        $post->save();
+
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
@@ -80,6 +94,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        return('destroy');
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }

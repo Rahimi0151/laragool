@@ -22,6 +22,7 @@ Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 Route::get('/dashboard/profile/edit', 'ProfileController@edit')->name('profile.edit');
 Route::put('/dashboard/profile/update', 'ProfileController@update')->name('profile.update');
 Route::get('/dashboard/profile/{username}', 'ProfileController@show')->name('profile.show');
+Route::get('/user', 'ProfileController@index')->name('user');
 
 Route::resource('/posts', 'PostController');
 
