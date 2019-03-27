@@ -18,6 +18,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
+Route::get('/dashboard/profile/edit', 'ProfileController@edit')->name('profile.edit');
+Route::put('/dashboard/profile/update', 'ProfileController@update')->name('profile.update');
+Route::get('/dashboard/profile/{username}', 'ProfileController@show')->name('profile.show');
 
 Route::resource('/posts', 'PostController');
 
